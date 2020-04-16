@@ -120,3 +120,29 @@ models.py中添加字段名
     Django的view，将负责返回vue的入口文件，成为api-view，返回JSON响应；  
     Django的urls.py将负责后端路由，指向vue入口文件和api；  
     vue负责前端试图逻辑，以及前端路由；
+
+### Django中的表单
+一个表单需要指定两件事：
+
+    什么位置：用户输入相对应的数据返回到哪一个URL路径
+    什么方法：采用哪一种HTTP方法返回数据
+        GET:数据查询搜索
+        POST（看不到提交的数据内容）:改变系统状态（增删改），保护加密数据（注册、登录、支付），保护系统权限
+
+### Django将一个数据对象呈现的步骤
+
+    在视图中获取数据对象（如从数据库中获取数据）
+    将数据对象与模板整合
+    使用模板变量将数据对象添加到HTML标记中
+
+### 一些BUG
+    1.Django连接mysql时出现django.core.exceptions.ImproperlyConfigured: mysqlclient 1.3.13 or newer is required; you have 0.9.3
+    解决方法：注释掉lib\site-packages\django\db\backends\mysql\base.py中的
+if version < (1, 3, 13):raise ImproperlyConfigured('mysqlclient 1.3.13 or newer is required; you have %s.' % Database.__version__)  
+
+    2.AttributeError: 'str' object has no attribute 'decode'
+    解决方法：将lib\site-packages\django\db\backends\mysql\operations.py中的query = query.decode(errors='replace') 
+    decode改为encode
+
+    3.File "D:\Python\Python37-32\lib\site-packages\django\views\debug.py", line 332, in get_traceback_html t = DEBUG_ENGINE.from_string(fh.read())　　UnicodeDecodeError: 'gbk' codec can't decode byte 0xa6 in position 9737: illegal multibyte sequence
+    打开debug.py，将with Path(CURRENT_DIR, 'templates', 'technical_500.html').open() as fh改为 with Path(CURRENT_DIR, 'templates', 'technical_500.html').open(encoding="utf-8") as fh
