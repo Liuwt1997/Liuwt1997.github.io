@@ -23,14 +23,16 @@ title: Django使用
     wsgi.py：网络通讯接口文件
 
 ### 生成APP
+
 每个django项目中可以包含多个APP，相当于一个大型项目中的分系统、子模块、功能部件等，相互之间比较独立，各APP共享项目资源。
 
     python manage.py startapp aaa
 
 ### urls.py
+
 路由都在urls文件里，将浏览器输入的url映射到相应的业务处理逻辑。urls编写方法和业务处理逻辑都在对应APP的views.py文件里：  
 
-urls.py: 
+urls.py:
 
     from aaa import views
     path("index/", views.index),
@@ -51,7 +53,8 @@ views.py:
     python manage.py runserver 127.0.0.1:8000
 
 ### 返回html文件
-在相应APP的templates下创建要返回的html文件，在views中返回：    
+
+在相应APP的templates下创建要返回的html文件，在views中返回：
 
     return render(request, "html文件",)   
 
@@ -62,6 +65,7 @@ views.py:
 render第三个参数是后台返回给浏览器的数据，data是自定义的指针名字，会被对应的html文件引用。
 
 ### 静态资源文件
+
 新建一个static目录，将前端的静态文件放到这个目录中，为了让django找到目录，需要对settings.py进行配置：
 
     STATIC_URL = '/static/' 
@@ -75,13 +79,16 @@ render第三个参数是后台返回给浏览器的数据，data是自定义的�
 'static'与静态文件目录的名字对应，和html的引用无关。  
 
 ### django跨站保护机制  
+
 伪装来自受信任用户的请求来利用受信任的网站完成攻击。当直接写一个form表单提交数据时会被误认为是跨站请求。  
 直接注释掉settings MIDDLEWARE中的django.middleware.csrf.CsrfViewMiddleware
   
 ### 注册APP
+
 在settings中的INSTALLED_APPS中添加APP的名字。
 
 ### 数据库创建字段
+
 models.py中添加字段名
 
 ### 创建数据库的表
@@ -99,10 +106,12 @@ models.py中添加字段名
     pymysql.install_as_MySQLdb()
 
 ### pycharm指定django版本
+
 建项目时勾选Inherit global site-packages，则项目默认应用系统内的django版本。  
 或者File——Setting——project:项目名———project interpreter——双击django——勾选Specify——选择版本。
 
 ### pycharm中自带数据库
+
 右边Database中新建直连mysql，然后就可以直接在pycharm界面中操作数据库啦！
 
 ### 生成requirements.txt
@@ -122,6 +131,7 @@ models.py中添加字段名
     vue负责前端试图逻辑，以及前端路由；
 
 ### Django中的表单
+
 一个表单需要指定两件事：
 
     什么位置：用户输入相对应的数据返回到哪一个URL路径
@@ -136,6 +146,7 @@ models.py中添加字段名
     使用模板变量将数据对象添加到HTML标记中
 
 ### 一些BUG
+
     1.Django连接mysql时出现django.core.exceptions.ImproperlyConfigured: mysqlclient 1.3.13 or newer is required; you have 0.9.3
     解决方法：注释掉lib\site-packages\django\db\backends\mysql\base.py中的
 if version < (1, 3, 13):raise ImproperlyConfigured('mysqlclient 1.3.13 or newer is required; you have %s.' % Database.__version__)  
